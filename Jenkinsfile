@@ -9,7 +9,7 @@ parameters {
 stages {
     stage("Bootstrapping") {
         steps {
-            sh ("echo " + parms.vaultToken + " -a " parms.account_type)
+            sh ("echo " + parms.vaultToken + " -a " + parms.account_type)
         }
     }
     
