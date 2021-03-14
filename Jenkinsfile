@@ -20,8 +20,8 @@ pipeline {
             steps{
 		
 		    //withCredentials([usernameColonPassword(credentialsId: 'params.${VaultToken}', variable: 'vtoken')]){
-		    sh ("echo params.${VaultToken}")    
-		    sh ("source ./env.sh params.${AccountType} params.${VaultToken}")
+		    //sh ("echo ${VaultToken}")    
+		    sh ("source ./env.sh ${AccountType} ${VaultToken}")
 		
 		    //}
 		    sh ("echo $TF_VAR_aws_access_key")
