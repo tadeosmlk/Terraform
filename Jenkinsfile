@@ -19,8 +19,12 @@ pipeline {
         stage("Set Creds"){
 		    
             steps{
-		    withCredentials([usernameColonPassword(credentialsId: '$VaultToken', variable: 'TOKEN')]){
-		    sh ('source ./env.sh $AccountType $TOKEN')
+		    
+		    //wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'KEY', password: KEY]], varMaskRegexes: []]) {
+            //sh "echo ${KEY}"
+        //}   
+		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken]], varMaskRegexes:[]]){
+		    sh ('source ./env.sh $AccountType $VaultToken')
 		    }
 		    sh ("echo $TF_VAR_aws_access_key")
 			    
