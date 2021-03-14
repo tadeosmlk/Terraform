@@ -19,7 +19,7 @@ pipeline {
         stage("Set Creds"){
             steps{
 		
-		    withCredentials([usernameColonPassword(credentialsId: 'VaultToken', variable: 'vtoken')]){
+		    withCredentials([usernameColonPassword(credentialsId: 'params.${VaultToken}', variable: 'vtoken')]){
 			    sh ("source ./env.sh params.${AccountType} params.${VaultToken}")
 		
 		    }
