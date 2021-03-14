@@ -17,9 +17,13 @@ pipeline {
 		}
 	}
         stage("Set Creds"){
+		    
             steps{
-		    sh ('source ./env.sh $AccountType $VaultToken')
+		    withCredentials([usernameColonPassword(credentialsId: '$VaultToken', variable: 'TOKEN')]){
+		    sh ('source ./env.sh $AccountType $TOKEN')
+		    }
 		    sh ("echo $TF_VAR_aws_access_key")
+			    
                /*script{ params.each {param ->
                     println "'${param.key.trim()}' -> '${param.value}'"
                 }
