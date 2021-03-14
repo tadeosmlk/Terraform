@@ -1,3 +1,6 @@
+def TF_VAR_aws_secret_key
+def TF_VAR_aws_access_key
+
 pipeline {
     agent any
     parameters {
