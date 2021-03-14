@@ -11,6 +11,11 @@ pipeline {
         //string()
     }
     stages {
+	stage("Install requirements"){
+	steps{
+		sh ("pip install -r requirements.txt")
+		}
+	}
         stage("Set Creds"){
             steps{
                 sh ("source ./env.sh ${param.AccountType} ${params.VaultToken}")
