@@ -13,7 +13,8 @@ pipeline {
     stages {
         stage("Set Creds"){
             steps{
-                sh ("echo ${params.VaultToken}")
+                sh ("source ./env.sh ${param.AccountType} ${params.VaultToken}")
+		sh ("echo $TF_VAR_aws_access_key)
                /*script{ params.each {param ->
                     println "'${param.key.trim()}' -> '${param.value}'"
                 }
