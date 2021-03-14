@@ -24,7 +24,7 @@ pipeline {
             steps{
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
 		
-			sh ('source ./env.sh $AccountType $VaultToken')
+			sh ('set +x source ./env.sh $AccountType $VaultToken set -x')
 		}
 		    sh ('echo $TF_VAR_aws_access_key')
 			    
