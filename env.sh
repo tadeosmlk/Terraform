@@ -5,7 +5,7 @@ vtoken=$2
 vaultURL="http://52.41.11.67:8200"
 aws_account=$1
 echo $aws_account
-awscreRaw=$(python3 setAcctCred.py -i jenkins -a $aws_account -v $vtoken)
+awscreRaw=$(python setAcctCred.py -i jenkins -a $aws_account -v $vtoken)
 
 access_key=$(echo $awscreRaw |awk '{ print $1}')
 secret_key=$(echo $awscreRaw |awk '{ print $2}')
