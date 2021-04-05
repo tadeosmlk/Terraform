@@ -99,7 +99,7 @@ pipeline {
         //println aws_keys['secret_key']
         if ( fileExists("${account_type}.groovy")){
             dir("./"){
-                prinln "${account_type}.groovy"
+                println "${account_type}.groovy"
                 inputs = load("${account_type}.groovy")
             }    
             def inputParams = inputs.getInputs()
