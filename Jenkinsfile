@@ -91,7 +91,7 @@ pipeline {
 			sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
         }                                                                                 
         def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u "http://52.41.11.67:8200" -a $account_type', returnStdout: true ).split("\r?\n")
-        println aws_keys
+        println aws_keys[0]
         //def inputFile = new File("./${account_type}.json")
         //def InputJSON = new JsonSlurper().parseText(aws_keys.text)
 
