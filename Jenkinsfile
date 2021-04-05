@@ -77,7 +77,7 @@ pipeline {
 		    
             steps{
                 script{
-                    def tf_cmd = "terraform-13"
+                    def tf_cmd = "terraform"
                     def workspace = pwd()
                     def envtest = params.environment
                     def vaultUrl = "http://52.41.11.67:8200"
@@ -88,8 +88,8 @@ pipeline {
 			sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
         }
         def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u "http://52.41.11.67:8200" -a $account_type', returnStdout: true )
-        println aws_keys
-
+        println aws_keys['access_key']
+        println aws_keys['secret_key']
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
         sh script: "${tf_cmd} plan -var='vaultToken=${VaultToken}'  -var='aws_secret_key=${TF_VAR_aws_secret_key}' -var='aws_access_key=${TF_VAR_aws_access_key}'"
