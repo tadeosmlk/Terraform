@@ -1,13 +1,15 @@
-import com.sap.ms.jenkins.*
+/*import com.sap.ms.jenkins.*
 import com.sap.ms.*
+*/
 def TF_VAR_aws_secret_key
 def TF_VAR_aws_access_key
 
 pipeline {
- agent { label "swarm" }
+ /*agent { label "swarm" }
     options {
       ansiColor('xterm')
-    }    
+    }*/
+    agent any    
     parameters {
         password(name: 'VaultToken', description: 'Token to access vault')
 	    choice(choices: ['Individual Resources'], description: 'How do you want to bootstrap?', name: 'bootstrap')
