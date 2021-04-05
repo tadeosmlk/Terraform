@@ -3,7 +3,7 @@ import com.sap.ms.*
 import groovy.json.JsonSlurper
 def aws_secret_key
 def aws_access_key
-def TF_VAR_aws_secret_ke
+def TF_VAR_aws_secret_key
 pipeline {
  /*agent { label "swarm" }
     options {
