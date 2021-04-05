@@ -93,9 +93,10 @@ pipeline {
         }                                                                                 
         def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u "http://52.41.11.67:8200" -a $account_type', returnStdout: true )
         println aws_keys
+        
         //println aws_keys['access_key']
         //println aws_keys['secret_key']
-       /* if ( fileExists(account_type +".json")){
+        if ( fileExists(account_type +".json")){
             dir("./"){
                 inputs = load(account_type+".json")
             }
@@ -103,7 +104,7 @@ pipeline {
             inputParams.each{key, value -> 
             variables.add("TF_VAR_${key}=${value}")
             }
-        }*/
+        }
         //if ( fileExists(account_type + ".json")){
         //   dir("./"){
         //        inputs = load(account_type+".json")
