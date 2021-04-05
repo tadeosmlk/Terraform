@@ -78,13 +78,14 @@ pipeline {
                     def tf_cmd = "terraform-13"
                     def workspace = pwd()
                     def envtest = params.environment
+                    def vaultUrl = "http://52.41.11.67:8200"
                     //def path_vars = workspace + "/" + params.environment.trim() + "/" + params.service.trim() + "/" + params.envtype.trim()
                     //def path = "modules" + "/" + params.resource.trim()
                     
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
-			sh ('set +x source ./setEnv.sh $account_type $VaultToken  http://10.209.130.68:8200 set -x')
+			sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
         }
-        def aws_keys = sh(script: 'python3 setAcctCred.py -i jenkins -v $VaultToken   -u http://10.209.130.68:8200 -a $account_type', returnStdout: true )
+        def aws_keys = sh(script: 'python3 setAcctCred.py -i jenkins -v $VaultToken   -u $vaultUrl -a $account_type', returnStdout: true )
         println aws_keys
 
         sh script: "/bin/rm -rf .terraform"
