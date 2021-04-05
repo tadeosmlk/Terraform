@@ -1,6 +1,6 @@
-/*import com.sap.ms.jenkins.*
+import com.sap.ms.jenkins.*
 import com.sap.ms.*
-*/
+
 def TF_VAR_aws_secret_key
 def TF_VAR_aws_access_key
 
@@ -98,7 +98,7 @@ pipeline {
         if ( fileExists(account_type +".json")){
             dir("./"){
                 inputs = load(account_type+".json")
-            }
+            }    
             def inputParams = inputs.getInputs()
             inputParams.each{key, value -> 
             variables.add("TF_VAR_${key}=${value}")
