@@ -70,7 +70,7 @@ pipeline {
     stages {
 	stage("Install requirements"){
 	steps{
-		sh ("pip3 install -r requirements.txt")
+		sh ("pip install -r requirements.txt")
 		}
 	}
         stage("Set Creds"){
@@ -87,7 +87,7 @@ pipeline {
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
 			sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
         }
-        def aws_keys = sh(script: 'python3 setAcctCred.py -i jenkins -v $VaultToken   -u $vaultUrl -a $account_type', returnStdout: true )
+        def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u $vaultUrl -a $account_type', returnStdout: true )
         println aws_keys
 
         sh script: "/bin/rm -rf .terraform"
