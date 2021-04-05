@@ -38,7 +38,7 @@ def main():
     invoker = input
     print(json.dumps(secret))
     with open(secret_path+".json", 'w+') as account_key:
-        account_key.write(json.dumps(secret))
+        account_key.write("'"+json.dumps(secret)+"'")
 
     return secret
 
