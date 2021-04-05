@@ -95,7 +95,7 @@ pipeline {
         
         //println aws_keys['access_key']
         //println aws_keys['secret_key']
-        if ( fileExists(account_type +".json")){
+        /*if ( fileExists(account_type +".json")){
             dir("./"){
                 inputs = load(account_type+".json")
             }    
@@ -103,7 +103,7 @@ pipeline {
             inputParams.each{key, value -> 
             variables.add("TF_VAR_${key}=${value}")
             }
-        }
+        }*/
         //if ( fileExists(account_type + ".json")){
         //   dir("./"){
         //        inputs = load(account_type+".json")
