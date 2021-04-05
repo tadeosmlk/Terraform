@@ -98,11 +98,11 @@ pipeline {
         //println aws_keys['access_key']
         //println aws_keys['secret_key']
         
-        if ( fileExists("${account_type}.groovy")){
-            dir("./"){
-                println "${account_type}.groovy"
-                inputs = load("${account_type}.groovy")
-            }
+        //if ( fileExists("${account_type}.groovy")){
+        //    dir("./"){
+          //      println "${account_type}.groovy"
+            //    inputs = load("${account_type}.groovy")
+           // }
 
             //def inputParams = inputs.getInputs()
             //inputParams.each{key, value -> 
