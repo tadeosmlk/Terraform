@@ -81,19 +81,30 @@ pipeline {
                     def workspace = pwd()
                     def envtest = params.environment
                     def vaultUrl = "http://52.41.11.67:8200"
-                    //def path_vars = workspace + "/" + params.environment.trim() + "/" + params.service.trim() + "/" + params.envtype.trim()
-                    //def path = "modules" + "/" + params.resource.trim()
+                    def path_vars = workspace + "/" + params.environment.trim() + "/" + params.service.trim() + "/" + params.envtype.trim()
+                    def path = "modules" + "/" + params.resource.trim()
+                
                     
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
 			sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
         }
-        def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u "http://52.41.11.67:8200" -a $account_type', returnStdout: true )
+        def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u ${vaultUrl} -a $account_type', returnStdout: true )
         println aws_keys
         //println aws_keys['access_key']
         //println aws_keys['secret_key']
+        if ( fileExists(account_type +".json")){
+            dir(.){
+                inputs = load(account_type+".json")
+            }
+            def inputParams = inputs.getInputs()
+            inputParams.each{key, value -> 
+            variables.add("TF_VAR_${key}=${value}")
+            }
+        }
+    
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
-        sh script: "${tf_cmd} plan -var='vaultToken=${VaultToken}'  -var='aws_secret_key=${TF_VAR_aws_secret_key}' -var='aws_access_key=${TF_VAR_aws_access_key}'"
+        sh script: "${tf_cmd} plan -var='vaultToken=${VaultToken}'  -var='aws_secret_key=${TF_VAR_aws_secret_key}' -var='aws_access_key=${TF_VAR_aws_access_key} "
         }
             }
             }

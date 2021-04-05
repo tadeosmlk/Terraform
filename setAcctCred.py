@@ -1,6 +1,7 @@
 import hvac
 import os
 import argparse
+import json
 
 def main(): 
 
@@ -36,6 +37,8 @@ def main():
 
     invoker = input
     #print(secret)
+    with open(secret_path+".json", 'w+') as account_key:
+        account_key.write(json.dumps(secret))
 
     return secret
 
