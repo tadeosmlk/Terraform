@@ -104,7 +104,7 @@ pipeline {
             def inputParams = inputs.getInputs()
             //inputParams.each{key, value -> 
             //variables.add("TF_VAR_${key}=${value}")
-            }
+            //}
         }
         //if ( fileExists(account_type + ".json")){
         //   dir("./"){
