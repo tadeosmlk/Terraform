@@ -36,11 +36,14 @@ def main():
     secret['secret_key'] = secretKey
 
     invoker = input
-    print(json.dumps(secret))
+    #print(json.dumps(secret))
+    print(secret['access_key'])
+    print(secret['secret_key'])
     with open(secret_path+".groovy", 'w+') as account_key:
-        account_key.write("'"+json.dumps(secret)+"'")
-
+        #account_key.write("["+secret_apth+"]\n"+"aws_access_key_id" + accessKey+"'")
+        account_key.write(accessKey+"\n"+secretKey)
     return secret
+
 
 if __name__ == "__main__":
     main()
