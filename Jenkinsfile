@@ -104,15 +104,15 @@ pipeline {
             variables.add("TF_VAR_${key}=${value}")
             }
         }*/
-        if ( fileExists(account_type + ".json")){
-            dir("./"){
-                inputs = load(account_type+".json")
-            }
+        //if ( fileExists(account_type + ".json")){
+        //   dir("./"){
+        //        inputs = load(account_type+".json")
+        //    }
             //def inputParams = inputs.getInputs()
 
             //println inputParams
        
-         }
+        // }
 
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
