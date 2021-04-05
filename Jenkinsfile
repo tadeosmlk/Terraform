@@ -102,8 +102,8 @@ pipeline {
                 inputs = load("${account_type}.json")
             }    
             def inputParams = inputs.getInputs()
-            inputParams.each{key, value -> 
-            variables.add("TF_VAR_${key}=${value}")
+            //inputParams.each{key, value -> 
+            //variables.add("TF_VAR_${key}=${value}")
             }
         }
         //if ( fileExists(account_type + ".json")){
