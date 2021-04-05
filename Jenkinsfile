@@ -108,7 +108,7 @@ pipeline {
             //inputParams.each{key, value -> 
             //variables.add("TF_VAR_${key}=${value}")
             //}
-        }
+        //}
         //if ( fileExists(account_type + ".json")){
         //   dir("./"){
         //        inputs = load(account_type+".json")
