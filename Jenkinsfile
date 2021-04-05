@@ -93,7 +93,7 @@ pipeline {
         //println aws_keys['access_key']
         //println aws_keys['secret_key']
         if ( fileExists(account_type +".json")){
-            dir(.){
+            dir("./"){
                 inputs = load(account_type+".json")
             }
             def inputParams = inputs.getInputs()
