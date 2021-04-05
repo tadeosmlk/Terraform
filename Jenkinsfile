@@ -92,8 +92,9 @@ pipeline {
         }                                                                                 
         def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u "http://52.41.11.67:8200" -a $account_type', returnStdout: true )
         println aws_keys
-        def inputFile = new File("./"+account_type+".json")
-        
+        //def inputFile = new File("./"+account_type+".json")
+        def InputJSON = new JsonSlurper().parseText(aws_keys)
+
         //println aws_keys['access_key']
         //println aws_keys['secret_key']
         /*if ( fileExists(account_type +".json")){
