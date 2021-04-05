@@ -1,6 +1,7 @@
 /*import com.sap.ms.jenkins.*
 import com.sap.ms.*
 */
+import groovy.json.JsonSlurper 
 def TF_VAR_aws_secret_key
 def TF_VAR_aws_access_key
 
@@ -76,6 +77,7 @@ pipeline {
         stage("Set Creds"){
 		    
             steps{
+                def jsonSlurper = new JsonSlurper()
                 script{
                     def inputs
                     def tf_cmd = "terraform"
@@ -108,7 +110,7 @@ pipeline {
             }
             def inputParams = inputs.getInputs()
 
-            println inputParams
+            //println inputParams
        
          }
 
