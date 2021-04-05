@@ -97,36 +97,13 @@ pipeline {
         def lines = readFile("./${account_type}.groovy").split("\r?\n") 
         println lines[0]
         println lines[1]
-        //def inputFile = new File("./${account_type}.json")
-        //def InputJSON = new JsonSlurper().parseText(aws_keys.text)
-
-        //println aws_keys['access_key']
-        //println aws_keys['secret_key']
-        
-        //if ( fileExists("${account_type}.groovy")){
-        //    dir("./"){
-          //      println "${account_type}.groovy"
-            //    inputs = load("${account_type}.groovy")
-           // }
-
-            //def inputParams = inputs.getInputs()
-            //inputParams.each{key, value -> 
-            //variables.add("TF_VAR_${key}=${value}")
-            //}
-        //}
-        //if ( fileExists(account_type + ".json")){
-        //   dir("./"){
-        //        inputs = load(account_type+".json")
-        //    }
-            //def inputParams = inputs.getInputs()
-
-            //println inputParams
-       
-        // }
 
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
-        sh script: "${tf_cmd} plan -var='vaultToken=${VaultToken}'  -var='aws_secret_key=${TF_VAR_aws_secret_key}' -var='aws_access_key=${TF_VAR_aws_access_key} "
+        wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'aws_keys[0]', password: aws_access_key], [var: 'aws_keys[1]', password: aws_secret_key]], varMaskRegexes:[]]){
+        sh ('set +x ${tf_cmd} plan -var="vaultToken=${VaultToken}"  -var="aws_secret_key=$aws_access_key" -var="aws_access_key=aws_secret_key" ')
+        }
+        
         }
             }
             }
