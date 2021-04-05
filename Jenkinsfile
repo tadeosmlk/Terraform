@@ -77,8 +77,9 @@ pipeline {
         stage("Set Creds"){
 		    
             steps{
-                def jsonSlurper = new JsonSlurper()
+               
                 script{
+                     def jsonSlurper = new JsonSlurper()
                     def inputs
                     def tf_cmd = "terraform"
                     def workspace = pwd()
