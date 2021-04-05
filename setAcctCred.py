@@ -35,7 +35,7 @@ def main():
     secret['secret_key'] = secretKey
 
     invoker = input
-    print(secret)
+    #print(secret)
 
     return secret
 
