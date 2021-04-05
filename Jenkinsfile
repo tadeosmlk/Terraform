@@ -92,7 +92,7 @@ pipeline {
         println aws_keys
         //println aws_keys['access_key']
         //println aws_keys['secret_key']
-        if ( fileExists(account_type +".json")){
+       /* if ( fileExists(account_type +".json")){
             dir("./"){
                 inputs = load(account_type+".json")
             }
@@ -100,8 +100,14 @@ pipeline {
             inputParams.each{key, value -> 
             variables.add("TF_VAR_${key}=${value}")
             }
+        }*/
+        if ( fileExists(account_type + ".json")){
+            def awsKey = readJSON file: "./" + account_type + ".json"
+       
+       println awsKey.access_key
+       println awsKey.secret_key
         }
-    
+
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
         sh script: "${tf_cmd} plan -var='vaultToken=${VaultToken}'  -var='aws_secret_key=${TF_VAR_aws_secret_key}' -var='aws_access_key=${TF_VAR_aws_access_key} "
