@@ -92,6 +92,10 @@ pipeline {
         }                                                                                 
         def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u "http://52.41.11.67:8200" -a $account_type', returnStdout: true ).split("\r?\n")
         println aws_keys[0]
+         println aws_keys[1]
+
+        def lines = readFile("./${account_type}.groovy").split("\r?\n") 
+        println lines
         //def inputFile = new File("./${account_type}.json")
         //def InputJSON = new JsonSlurper().parseText(aws_keys.text)
 
