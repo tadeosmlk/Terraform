@@ -77,6 +77,7 @@ pipeline {
 		    
             steps{
                 script{
+                    def inputs
                     def tf_cmd = "terraform"
                     def workspace = pwd()
                     def envtest = params.environment
@@ -102,11 +103,14 @@ pipeline {
             }
         }*/
         if ( fileExists(account_type + ".json")){
-            def awsKey = readJSON file: "./" + account_type + ".json"
+            dir("./"){
+                inputs = load(account_type+".json")
+            }
+            def inputParams = inputs.getInputs()
+
+            println inputParams
        
-       println awsKey.access_key
-       println awsKey.secret_key
-        }
+         }
 
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
