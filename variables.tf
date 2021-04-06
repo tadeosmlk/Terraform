@@ -11,3 +11,5 @@ variable "environmentt" {
     type = string
     default = "dev"
 }
+
+variable "vaultToken" {}
