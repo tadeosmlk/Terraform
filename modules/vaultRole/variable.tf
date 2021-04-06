@@ -6,7 +6,7 @@ variable "service" {default = "prodeu"}
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "vaultToken" {}
-variable "vaultUrl" { default = ""}
+variable "vaultUrl" { default = "http://52.41.11.67:8200"}
 variable "vaultPath" {
     type = list(string)
     default = [
