@@ -102,7 +102,7 @@ pipeline {
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
         wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${aws_keys[0]}", var: 'aws_access_key'], [var: "${aws_keys[1]}", password: aws_secret_key]], varMaskRegexes:[]]){
-        sh ('set +x ' + "${tf_cmd} + plan -var='vaultToken=${VaultToken}'  -var='aws_secret_key=${aws_access_key}' -var='aws_access_key=${aws_secret_key}' set -x")
+        sh ('set +x ' + "${tf_cmd} + plan -var='vaultToken=${VaultToken}'  -var='aws_secret_key=${aws_keys[0]}' -var='aws_access_key=${aws_secret_key}' set -x")
         }
         
         }
