@@ -89,8 +89,9 @@ pipeline {
                     
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
 			sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
+            def aws_keys = sh("set +x  python setAcctCred.py -i jenkins -v $VaultToken   -u ${vaultUrl} -a ${account_type}, returnStdout: true set -x").split("\r?\n")
+      
         }                                                                                 
-        def aws_keys = sh(script: 'python setAcctCred.py -i jenkins -v $VaultToken   -u "http://52.41.11.67:8200" -a $account_type', returnStdout: true ).split("\r?\n")
         println aws_keys[0]
         println aws_keys[1]
         println "---------+++++----------"
