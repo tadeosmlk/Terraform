@@ -6,7 +6,7 @@ variable "service" {default = "prodeu"}
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "vaultToken" {}
-
+variable "vaultUrl" { default = ""}
 variable "vaultPath" {
     type = list(string)
     default = [
