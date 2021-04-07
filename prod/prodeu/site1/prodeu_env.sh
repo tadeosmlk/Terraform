@@ -1,0 +1,5 @@
+export environment_name="prod"
+export service_name="prodeu"
+export env_type="site1"
+export bucket_name="sap-ariba-prod-eu-prism-backend"
+export bucket_project_name="ariba-global-bootstrap"
