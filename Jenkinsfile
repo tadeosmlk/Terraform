@@ -90,13 +90,16 @@ pipeline {
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
 			//sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
             //sh script: "set +x;  python setAcctCred.py -i jenkins -v $VaultToken   -u ${vaultUrl} -a ${account_type} "  //.split("\r?\n")
-           sh script: "set +x;  python setAcctCred.py -i jenkins -v $VaultToken   -u ${vaultUrl} -a master-acct "  //.split("\r?\n")
-            
+           sh script: "set +x;  python setAcctCred.py -i jenkins -v $VaultToken   -u ${vaultUrl} -a master-acct "  //.split("\r?\n"      
         }                                                                                 
         //println aws_keys[0]
         //println aws_keys[1]
         println "---------+++++----------"
+        try {
         def aws_keys = readFile("./${account_type}.groovy").split("\r?\n") 
+        }catch (Exception e){
+                def aws_keys = readFile("./master-acct.groovy").split("\r?\n")
+        }
         println aws_keys[0]
         println aws_keys[1]
 
