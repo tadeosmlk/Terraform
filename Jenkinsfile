@@ -97,7 +97,7 @@ pipeline {
         println "---------+++++----------"
         try {
         def aws_keys = readFile("./${account_type}.groovy").split("\r?\n") 
-        }catch (MissingPropertyException ex){
+        }catch (Exception ex){
                 def aws_keys = readFile("./master-acct.groovy").split("\r?\n")
         }
         println aws_keys[0]
