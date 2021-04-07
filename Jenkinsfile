@@ -85,7 +85,7 @@ pipeline {
                     def vaultUrl = "http://52.41.11.67:8200"
                     def path_vars = workspace + "/" + params.environment.trim() + "/" + params.service.trim() + "/" + params.envtype.trim()
                     def path = "modules" + "/" + params.resource.trim()
-                
+          println "---------///////----------"      
         sh("python --version")            
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
 			//sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
