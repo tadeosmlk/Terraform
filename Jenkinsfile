@@ -86,7 +86,7 @@ pipeline {
                     def path_vars = workspace + "/" + params.environment.trim() + "/" + params.service.trim() + "/" + params.envtype.trim()
                     def path = "modules" + "/" + params.resource.trim()
                     def masterAcct = ${account_type}
-                    def masterAcct = "master-acct"
+                    masterAcct = "master-acct"
 
         println "---------///////----------"      
         sh("python --version")            
