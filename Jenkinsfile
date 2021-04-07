@@ -113,15 +113,41 @@ pipeline {
 println "---------///////----------"   
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
-        wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${aws_keys[0]}", var: "${aws_keys[0]}"], [password: "${aws_keys[1]}", var: "${aws_keys[1]}"]], varMaskRegexes:[]]){
-        sh script: "set +x; ${tf_cmd}  plan \
-        -var-file='${path_vars}/${service}.tfvars' \
-        -var-file='${path_vars}/${account_type}/${resource}/${service}.tfvars' \
-        -var='vaultToken=${VaultToken}'  \
-        -var='aws_secret_key=${aws_keys[0]}' \
-        -var='aws_access_key=${aws_keys[1]}' "
+        if (params.Plan){
+            wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${aws_keys[0]}", var: "${aws_keys[0]}"], [password: "${aws_keys[1]}", var: "${aws_keys[1]}"]], varMaskRegexes:[]]){
+            sh script: "set +x; ${tf_cmd}  plan \
+            -var-file='${path_vars}/${service}.tfvars' \
+            -var-file='${path_vars}/${account_type}/${resource}/${service}.tfvars' \
+            -var='vaultToken=${VaultToken}'  \
+            -var='aws_secret_key=${aws_keys[0]}' \
+            -var='aws_access_key=${aws_keys[1]}' "
+            }
         }
-        
+
+
+
+        if (params.Apply){
+            wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${aws_keys[0]}", var: "${aws_keys[0]}"], [password: "${aws_keys[1]}", var: "${aws_keys[1]}"]], varMaskRegexes:[]]){
+            sh script: "set +x; ${tf_cmd}  plan  \
+            -var-file='${path_vars}/${service}.tfvars' \
+            -var-file='${path_vars}/${account_type}/${resource}/${service}.tfvars' \
+            -var='vaultToken=${VaultToken}'  \
+            -var='aws_secret_key=${aws_keys[0]}' \
+            -var='aws_access_key=${aws_keys[1]}' "
+            }
+            input(id: 'Proceed1', message: 'Please verify the terraform plan and confirm to proceed')
+            wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${aws_keys[0]}", var: "${aws_keys[0]}"], [password: "${aws_keys[1]}", var: "${aws_keys[1]}"]], varMaskRegexes:[]]){
+            sh script: "set +x; ${tf_cmd}  apply -auto-approve  \
+            -var-file='${path_vars}/${service}.tfvars' \
+            -var-file='${path_vars}/${account_type}/${resource}/${service}.tfvars' \
+            -var='vaultToken=${VaultToken}'  \
+            -var='aws_secret_key=${aws_keys[0]}' \
+            -var='aws_access_key=${aws_keys[1]}' "
+            }
+
+
+        }
+
         }
             }
             }
