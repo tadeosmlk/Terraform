@@ -17,7 +17,8 @@ pipeline {
 		choice(choices: ['prodstg','prodeu','produs'], description: 'Select the service to bootstrap?', name: 'service')
 		choice(choices: ['site1','site2'],description: 'Select the environment type ?', name: 'envtype')
 		choice(choices: ['data','cluster','infra','transit','logging','security','dmz'],description: 'Select the account type ?', name: 'account_type')        
-		choice(choices: ['vaultRole'
+		choice(choices: [   'vaultRole',
+                            'lambda',
                            'iam/polices',
                            'iam/groups',
                            'iam/users',
