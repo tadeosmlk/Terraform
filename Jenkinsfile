@@ -88,7 +88,7 @@ pipeline {
                     def masterAcct = params.account_type
                     masterAcct = "master-acct"
 
-        println "---------///////----------"      
+           
         sh("python --version")            
 		wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[var: 'VaultToken', password: VaultToken], [password: TF_VAR_aws_secret_key]], varMaskRegexes:[]]){
 			//sh ('set +x source ./setEnv.sh $account_type $VaultToken  $vaultUrl set -x')
@@ -98,19 +98,13 @@ pipeline {
         //println aws_keys[0]
         //println aws_keys[1]
         println "---------+++++----------"
-        try {
+        
         def aws_keys = readFile("./${masterAcct}.groovy").split("\r?\n") 
-        }catch (Exception ex){
-                println "+++++++++++++++++++++++++testin++++++++++++++++++++++++"
-                def aws_keys = readFile("./master-acct.groovy").split("\r?\n")
-                println aws_keys[0]
-                println aws_keys[1]
-                println "-------------------------------------------------------"
-        }
+ 
         println aws_keys[0]
         println aws_keys[1]
 
-
+println "---------///////----------"   
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
         wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${aws_keys[0]}", var: "${aws_keys[0]}"], [password: "${aws_keys[1]}", var: "${aws_keys[1]}"]], varMaskRegexes:[]]){
