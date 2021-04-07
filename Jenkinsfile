@@ -107,13 +107,13 @@ pipeline {
 println "---------///////----------"   
         sh script: "/bin/rm -rf .terraform"
         sh script: "${tf_cmd} init"
-        sh script: "$tf_cmd plan -var-file=$path_vars" + "/" + params.service.trim() + ".tfvars" + " -var-file=$path_vars" + "/" +  params.account_type.trim() + "/"  + params.resource.trim() + "/" + params.service.trim() + ".tfvars"
+        //sh script: "$tf_cmd plan -var-file=$path_vars" + "/" + params.service.trim() + ".tfvars" + " -var-file=$path_vars" + "/" +  params.account_type.trim() + "/"  + params.resource.trim() + "/" + params.service.trim() + ".tfvars"
         wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: "${aws_keys[0]}", var: "${aws_keys[0]}"], [password: "${aws_keys[1]}", var: "${aws_keys[1]}"]], varMaskRegexes:[]]){
-        sh script: "set +x; ${tf_cmd}  plan" + \
-        "-var-file=$path_vars" + "/" + params.service.trim() + ".tfvars" + \                   
-        "-var-file=$path_vars" + "/" +  params.account_type.trim() + "/"  + params.resource.trim() + "/" + params.service.trim() + ".tfvars" +\
-        "-var='vaultToken=${VaultToken}'  " +\
-        "-var='aws_secret_key=${aws_keys[0]}' "+\
+        sh script: "set +x; ${tf_cmd}  plan" + 
+        "-var-file=$path_vars" + "/" + params.service.trim() + ".tfvars" +                    
+        "-var-file=$path_vars" + "/" +  params.account_type.trim() + "/"  + params.resource.trim() + "/" + params.service.trim() + ".tfvars" +
+        "-var='vaultToken=${VaultToken}'  " +
+        "-var='aws_secret_key=${aws_keys[0]}' "+
         "-var='aws_access_key=${aws_keys[1]}' "
         }
         
