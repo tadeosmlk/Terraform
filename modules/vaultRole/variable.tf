@@ -9,9 +9,7 @@ variable "vaultToken" {}
 variable "vaultUrl"   { default = "http://52.41.11.67:8200"}
 variable "vaultRolePath" {default = "prodeu-sap-ariba-prod-eu-infra-bootstrap"}
 
-
-
-
+variable "rolearn" { type = "map" }
 
 
 #variable "vaultPath" {
