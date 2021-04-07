@@ -85,7 +85,7 @@ pipeline {
                     def vaultUrl = "http://52.41.11.67:8200"
                     def path_vars = workspace + "/" + params.environment.trim() + "/" + params.service.trim() + "/" + params.envtype.trim()
                     def path = "modules" + "/" + params.resource.trim()
-                    def masterAcct = ${account_type}
+                    def masterAcct = params.account_type
                     masterAcct = "master-acct"
 
         println "---------///////----------"      
