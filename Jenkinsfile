@@ -98,6 +98,7 @@ pipeline {
         try {
         def aws_keys = readFile("./${account_type}.groovy").split("\r?\n") 
         }catch (Exception ex){
+                println "+++++++++++++++++++++++++testin++++++++++++++++++++++++"
                 def aws_keys = readFile("./master-acct.groovy").split("\r?\n")
         }
         println aws_keys[0]
