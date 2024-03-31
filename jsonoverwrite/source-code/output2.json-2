@@ -1,0 +1,184 @@
+{
+    "class": "AS3",         //Satatic
+    "action": "deploy",     //Satatic
+    "persist": true,        //Satatic
+    "declaration": {          //Satatic
+       "class": "ADC",        //Satatic
+       "schemaVersion": "3.37.0",          //Satatic
+       "id": "example-declaration-tenant5",          //Satatic
+       "label":"Sample Tenant5",          //Satatic
+       "remark": "Tenant5 test for AS3",          //Satatic
+       
+       "Tenant5": {           //Satatic
+          "class": "Tenant",          //Satatic
+          "Shared": {    //Static Block
+             "class": "Application",          //Satatic
+             "template": "shared",        //Satatic
+ 
+             "as3-tenant5-test": {   //Dynamic Block  Application #1
+                 "remark": "as3-tenant5-test",  //Dynamic Block
+                 "class": "Service_HTTP", //Dynamic Block
+                 "iRules": [//Dynamic Block
+                     "AS3-TEST3-IRULE"   //Dynamic Block. listo of rules defined here will have a subsequent config definition like line #77
+                 ],
+                 "profileTCP": {  //Dynamic Block
+                     "bigip": "/Tenant5/tcp"
+                 },
+                 "profileHTTP": {  //Dynamic Block.  
+                     "use": "http_hsts_xf1"  //Dynamic Block.  http_hsts_xf1 will be further defined as line #98
+                 },
+                  
+                 "virtualAddresses": [  //Dynamic Block
+                     "${VIP_ADDRESS}"
+                 ],
+                 "virtualPort": 80,  //Dynamic Block
+                 "pool": "pool30",                //Dynamic Block
+                 "snat": "none"  //Dynamic Block
+             },
+             
+             "as3-tenant5-test2": {
+                 "remark": "as3-tenant5-test2",                 
+                 "class": "Service_HTTP",
+                 "iRules": [
+                     "AS3-TEST3-IRULE"
+                 ],
+                 "profileTCP": {
+                     "bigip": "/Tenant5/tcp"
+                 },
+                 "virtualAddresses": [
+                     "${VIP_ADDRESS_2}"
+                 ],
+                 "virtualPort": 80,
+                 "pool": "pool30",
+                 "snat": "none"
+             },
+ 
+             "as3-tenant5-test3": {   //Dynamic Block
+                 "remark": "as3-tenant5-test3", //Dynamic Block
+                 "class": "Service_HTTPS",  //Dynamic Block.
+                  "iRules": [
+                       "AS3-TEST3-IRULE"
+                 ],
+                 "profileTCP": {
+                     "bigip": "/Tenant5/tcp"
+                 },
+                 "virtualAddresses": [
+                     "3.3.3.3"
+                 ],
+                 "virtualPort": 443,
+                 "snat": "auto",
+                 "pool": "pool30",
+                 },     
+            
+                 "serverTLS": "webtls",  //Dynamic  Block.  THis will further be defined in webtls block like line #154
+                 "redirect80": false     //Dynamic  Block
+             },
+ 
+             "AS3-TEST3-IRULE": {  //Dynamic Block 
+                 "class": "iRule",
+                 "iRule": "when HTTP_REQUEST { HTTP::respond 200 content {<html><head><title>Hi team</title</head><body><h1>Hello team!</h1></body></html> }}"
+              },
+ 
+             "pool30": {  //Dynamic Block
+                 "class": "Pool",
+                 "monitors": [
+                     "http"
+                 ],
+                 "members": [
+                 {
+                     "servicePort": 8080,
+                      "serverAddresses": [
+                         "3.3.3.200",
+                         "3.3.3.201"
+                       ]
+                 }
+                 ]
+             },
+             
+             "http_hsts_xf1": {  Dynamic Block
+                     "class": "HTTP_Profile",
+                     "knownMethods": [
+                         "CONNECT",
+                         "DELETE",
+                         "GET",
+                         "HEAD",
+                         "LOCK",
+                         "OPTIONS",
+                         "POST",
+                         "PROPFIND",
+                         "PUT",
+                         "TRACE",
+                         "UNLOCK"
+                     ],
+                     "maxHeaderCount": 64,
+                     "maxHeaderSize": 32768,
+                     "maxRequests": 0,
+                     "pipelineAction": "allow",
+                     "truncatedRedirects": false,
+                     "unknownMethodAction": "allow",
+                     "hstsIncludeSubdomains": false,
+                     "hstsPeriod": 31536000,
+                     "hstsInsert": true,
+                     "xForwardedFor": true,
+                     "multiplexTransformations": true,
+                     "proxyType": "reverse",
+                     "rewriteRedirects": "none",
+                     "requestChunking": "sustain",
+                     "responseChunking": "sustain",
+                     "serverHeaderValue": "BigIP",
+                     "viaRequest": "preserve",
+                     "viaResponse": "preserve"
+                 },
+             
+             
+              "aes_128-256_cipher-rules": {  //Dynamic Block
+                     "class": "Cipher_Rule",
+                     "cipherSuites": [
+                         "ECDHE-ECDSA-AES256-GCM-SHA384",
+                         "ECDHE-RSA-AES256-GCM-SHA384",
+                         "ECDHE-RSA-AES256-SHA384",
+                         "ECDHE-RSA-AES256-CBC-SHA",
+                         "ECDHE-ECDSA-AES128-GCM-SHA256",
+                         "ECDHE-RSA-AES128-GCM-SHA256",
+                         "ECDHE-RSA-AES128-SHA256",
+                         "ECDHE-RSA-AES128-CBC-SHA",
+                         "AES256-GCM-SHA384",
+                         "AES256-SHA256",
+                         "AES256-SHA",
+                         "AES128-GCM-SHA256",
+                         "AES128-SHA256",
+                         "AES128-SHA"
+                     ]
+                 },
+             
+             "webtls": {  //Dynamci Rule
+                 "class": "TLS_Server",  
+                 "certificates": [
+                   {
+                     "certificate": "webcert"
+                   }
+                 ],
+                "ciphers": "ECDHE-A384:ECDHE-RSA-AES256-SHA384-SHA",
+                     "renegotiationEnabled": false,
+                     "class": "TLS_Server",
+                     "tls1_0Enabled": false,
+                     "tls1_1Enabled": false,
+                     "tls1_2Enabled": true,
+                     "tls1_3Enabled": false,
+                     "singleUseDhEnabled": false,
+                     "insertEmptyFragmentsEnabled": false
+             },
+             
+             "webcert": {  //Dynamic Block.  Will need your help on passing the certs in a secure mannaer
+                 "class": "Certificate",
+                 "remark": "in practice we recommend using a passphrase",
+                 "certificate": "-----BEGIN CERt-----\nJc\n-----END CERTIFICATE-----",
+                 "privateKey": " RSA PRIVATE KEY-----",
+                 "passphrase": {
+                   "ciphertext": "==",
+                   "protected": ""
+                 }
+             }
+         }
+ 
+    }    
